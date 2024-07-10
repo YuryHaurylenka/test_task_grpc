@@ -23,9 +23,9 @@ class UserUpdatePartial(UserCreate):
     age: int | None = None
 
 
-class User(UserCreate):
+class User(UserBase):
     model_config = ConfigDict(from_attributes=True)
-    user_d: uuid.UUID
+    user_id: uuid.UUID
     name: str
     email: str
     age: int

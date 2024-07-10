@@ -1,4 +1,4 @@
-order-service/.env
+order_service/.env
 user_service/.env
 
 .idea/

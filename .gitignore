@@ -1,0 +1,10 @@
+order-service/.env
+user_service/.env
+
+.idea/
+*.iml
+out/
+
+.DS_Store
+
+/venv/

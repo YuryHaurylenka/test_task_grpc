@@ -2,8 +2,8 @@ from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .models import Order
 from .schemas import OrderCreate, OrderUpdate, OrderUpdatePartial
+from .models import Order
 
 
 async def get_orders(session: AsyncSession) -> list[Order]:

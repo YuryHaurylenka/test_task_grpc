@@ -3,6 +3,8 @@ import uuid
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 
+from .base import Base
+
 
 class Order(Base):
     __tablename__ = "orders"

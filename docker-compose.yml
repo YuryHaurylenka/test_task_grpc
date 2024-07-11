@@ -22,6 +22,8 @@ services:
     build: ./user_service
     depends_on:
       - user_db
+    environment:
+      DB_URL: postgresql+asyncpg://postgres:postgres@user_db:5432/user_db
     ports:
       - "50051:50051"
 
@@ -30,5 +32,7 @@ services:
     depends_on:
       - order_db
       - user_service
+    environment:
+      DB_URL: postgresql+asyncpg://postgres:postgres@order_db:5432/order_db
     ports:
       - "50052:50052"

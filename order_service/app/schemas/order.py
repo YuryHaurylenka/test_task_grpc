@@ -4,8 +4,9 @@ from pydantic import BaseModel, ConfigDict
 
 
 class OrderBase(BaseModel):
-    description: str
     user_id: uuid.UUID
+    description: str
+    order_name: str
 
 
 class OrderCreate(OrderBase):
@@ -17,12 +18,14 @@ class OrderUpdate(OrderCreate):
 
 
 class OrderUpdatePartial(OrderCreate):
-    description: str | None = None
     user_id: uuid.UUID | None = None
+    description: str | None = None
+    order_name: str | None = None
 
 
 class Order(OrderBase):
     model_config = ConfigDict(from_attributes=True)
     order_id: int
-    description: str
     user_id: uuid.UUID
+    description: str
+    order_name: str

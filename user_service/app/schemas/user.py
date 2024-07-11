@@ -19,7 +19,7 @@ class UserUpdate(UserCreate):
 
 class UserUpdatePartial(UserCreate):
     username: str | None = None
-    email: str | None = None
+    email: EmailStr | None = None
     age: int | None = None
 
 
@@ -27,5 +27,5 @@ class User(UserBase):
     model_config = ConfigDict(from_attributes=True)
     user_id: uuid.UUID = Field(default_factory=uuid.uuid4)
     username: str
-    email: str
+    email: EmailStr
     age: int

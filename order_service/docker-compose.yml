@@ -2,14 +2,15 @@ version: "3.0"
 services:
   db:
     container_name: "order"
-    image: postgres:14.1-alpine
+    image: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=order_db
     ports:
-      - "5433:5432"
+      - "5433:5433"
+    command: ["postgres", "-c", "port=5433"]
     networks:
       - custom
 networks:

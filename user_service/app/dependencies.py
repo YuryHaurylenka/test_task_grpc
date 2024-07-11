@@ -4,9 +4,9 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, Path, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from crud import user as crud_user
-from .core import db_helper
-from .models import User
+from user_service.app.crud import user as crud_user
+from user_service.app.core import db_helper
+from user_service.app.models import User
 
 
 async def user_by_id(

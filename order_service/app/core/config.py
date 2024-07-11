@@ -23,15 +23,9 @@ class ApiPrefix(BaseModel):
     v1: ApiV1Prefix = ApiV1Prefix()
 
 
-class RunConfig(BaseModel):
-    host: str = "127.0.0.1"
-    port: int = 8001
-
-
 class Settings(BaseSettings):
 
     db: DbSettings = DbSettings()
-    run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
 
 

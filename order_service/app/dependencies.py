@@ -3,9 +3,9 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, Path, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from crud import order as crud_order
-from .core import db_helper
-from .models import Order
+from order_service.app.crud import order as crud_order
+from order_service.app.core import db_helper
+from order_service.app.models import Order
 
 
 async def order_by_id(

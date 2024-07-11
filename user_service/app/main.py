@@ -1,9 +1,8 @@
-import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from starlette.responses import RedirectResponse
 
 from user_service.app.core.config import settings
-from views import router as api_v1_router
+from user_service.app.views import router as api_v1_router
 
 app = FastAPI()
 app.include_router(
@@ -12,10 +11,10 @@ app.include_router(
 )
 
 
-@app.get("/", include_in_schema=False)
+@app.get(
+    "/",
+    include_in_schema=False,
+    status_code=status.HTTP_308_PERMANENT_REDIRECT,
+)
 async def root():
     return RedirectResponse(url="/docs")
-
-
-if __name__ == "__main__":
-    uvicorn.run("main:app", reload=True, host=settings.run.host, port=settings.run.port)

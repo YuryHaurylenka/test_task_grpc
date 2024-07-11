@@ -1,0 +1,34 @@
+version: '3'
+services:
+  user_db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: user_db
+    ports:
+      - "5432:5432"
+
+  order_db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: order_db
+    ports:
+      - "5433:5432"
+
+  user_service:
+    build: ./user_service
+    depends_on:
+      - user_db
+    ports:
+      - "50051:50051"
+
+  order_service:
+    build: ./order_service
+    depends_on:
+      - order_db
+      - user_service
+    ports:
+      - "50052:50052"

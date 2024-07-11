@@ -13,9 +13,26 @@ class DbSettings(BaseModel):
     echo: bool = True
 
 
+class ApiV1Prefix(BaseModel):
+    prefix: str = "/v1"
+    users: str = "/users"
+
+
+class ApiPrefix(BaseModel):
+    prefix: str = "/api"
+    v1: ApiV1Prefix = ApiV1Prefix()
+
+
+class RunConfig(BaseModel):
+    host: str = "127.0.0.1"
+    port: int = 8000
+
+
 class Settings(BaseSettings):
 
     db: DbSettings = DbSettings()
+    run: RunConfig = RunConfig()
+    api: ApiPrefix = ApiPrefix()
 
 
 settings = Settings()

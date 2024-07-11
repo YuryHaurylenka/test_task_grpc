@@ -4,8 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .models import User
-from .schemas import UserCreate, UserUpdate, UserUpdatePartial
+from user_service.app.models import User
+from user_service.app.schemas import UserCreate, UserUpdate, UserUpdatePartial
 
 
 async def get_users(session: AsyncSession) -> list[User]:

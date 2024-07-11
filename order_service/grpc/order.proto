@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package order;
+
+import "google/protobuf/empty.proto";
+
+message CreateOrderRequest {
+    string user_id = 1;
+    string order_name = 2;
+    string description = 3;
+}
+
+message CreateOrderResponse {
+    string message = 1;
+}
+
+service OrderService {
+    rpc CreateOrder (CreateOrderRequest) returns (CreateOrderResponse);
+}
+
+service UserExistenceCheck {
+    rpc CheckUserExistence (CheckUserExistenceRequest) returns (google.protobuf.Empty);
+}
+
+message CheckUserExistenceRequest {
+    string user_id = 1;
+}

@@ -1,3 +1,9 @@
-__all__ = ("User", "UserBase", "UserCreate", "UserUpdate", "UserUpdatePartial")
+__all__ = (
+    "User",
+    "UserBase",
+    "UserCreate",
+    "UserUpdate",
+    "UserUpdatePartial",
+)
 
 from .user import User, UserBase, UserCreate, UserUpdate, UserUpdatePartial

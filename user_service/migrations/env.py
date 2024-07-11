@@ -22,7 +22,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
-from user_service.app.config import settings
+from user_service.app.core.config import settings
 from user_service.app.models import Base
 
 target_metadata = Base.metadata

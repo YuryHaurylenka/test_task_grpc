@@ -10,19 +10,28 @@ from user_service.grpc import user_pb2 as pb2, user_pb2_grpc as pb2_grpc
 
 class UserServiceServicer(pb2_grpc.UserServiceServicer):
     async def GetUser(self, request, context):
-        session = db_helper.get_scoped_session()
-        async with session() as s:
-            user = await s.get(User, request.user_id)
-            if user is None:
-                context.set_details(f"User with id {request.user_id} not found")
-                context.set_code(grpc.StatusCode.NOT_FOUND)
-                return pb2.UserResponse()
-            return pb2.UserResponse(
-                user_id=str(user.user_id),
-                username=user.username,
-                email=user.email,
-                age=user.age,
-            )
+        logging.info(f"Received GetUser request for user_id: {request.user_id}")
+        try:
+            session = db_helper.get_scoped_session()
+            async with session() as s:
+                user = await s.get(User, request.user_id)
+                if user is None:
+                    context.set_details(f"User with id {request.user_id} not found")
+                    context.set_code(grpc.StatusCode.NOT_FOUND)
+                    return pb2.UserResponse()
+                logging.info(
+                    f"User with id {request.user_id} found: Username = {user.username}, email = {user.email}, age = {user.age}"
+                )
+                return pb2.UserResponse(
+                    user_id=str(user.user_id),
+                    username=user.username,
+                    email=user.email,
+                    age=user.age,
+                )
+        except grpc.aio.AioRpcError as e:
+            logging.error(f"Error while checking user existence: {e.details()}")
+            context.set_details(f"Error while checking user existence: {e.details()}")
+            context.set_code(grpc.StatusCode.INTERNAL)
 
 
 async def serve_grpc():

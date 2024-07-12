@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import user_pb2 as grpc_dot_user__pb2
+import user_service.grpc.user_pb2 as user__pb2
 
 GRPC_GENERATED_VERSION = "1.65.0"
 GRPC_VERSION = grpc.__version__
@@ -23,7 +23,7 @@ except ImportError:
 if _version_not_supported:
     warnings.warn(
         f"The grpc package installed is at version {GRPC_VERSION},"
-        + f" but the generated code in grpc/user_pb2_grpc.py depends on"
+        + f" but the generated code in user_pb2_grpc.py depends on"
         + f" grpcio>={GRPC_GENERATED_VERSION}."
         + f" Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}"
         + f" or downgrade your generated code using grpcio-tools<={GRPC_VERSION}."
@@ -44,8 +44,8 @@ class UserServiceStub(object):
         """
         self.GetUser = channel.unary_unary(
             "/user.UserService/GetUser",
-            request_serializer=grpc_dot_user__pb2.GetUserRequest.SerializeToString,
-            response_deserializer=grpc_dot_user__pb2.GetUserResponse.FromString,
+            request_serializer=user__pb2.UserRequest.SerializeToString,
+            response_deserializer=user__pb2.UserResponse.FromString,
             _registered_method=True,
         )
 
@@ -64,8 +64,8 @@ def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
         "GetUser": grpc.unary_unary_rpc_method_handler(
             servicer.GetUser,
-            request_deserializer=grpc_dot_user__pb2.GetUserRequest.FromString,
-            response_serializer=grpc_dot_user__pb2.GetUserResponse.SerializeToString,
+            request_deserializer=user__pb2.UserRequest.FromString,
+            response_serializer=user__pb2.UserResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -96,8 +96,8 @@ class UserService(object):
             request,
             target,
             "/user.UserService/GetUser",
-            grpc_dot_user__pb2.GetUserRequest.SerializeToString,
-            grpc_dot_user__pb2.GetUserResponse.FromString,
+            user__pb2.UserRequest.SerializeToString,
+            user__pb2.UserResponse.FromString,
             options,
             channel_credentials,
             insecure,

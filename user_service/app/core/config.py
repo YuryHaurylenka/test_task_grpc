@@ -9,8 +9,7 @@ load_dotenv()
 
 class DbSettings(BaseModel):
     url: str = os.getenv("DB_URL")
-    # echo: bool = False
-    echo: bool = True
+    echo: bool = False
 
 
 class ApiV1Prefix(BaseModel):

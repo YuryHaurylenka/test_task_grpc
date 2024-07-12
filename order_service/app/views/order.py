@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from order_service.app.core import db_helper
@@ -10,7 +11,6 @@ from order_service.app.schemas import (
     OrderUpdate,
     OrderUpdatePartial,
 )
-
 from order_service.grpc.grpc_client import check_user_exists
 
 router = APIRouter(tags=["Order"])
@@ -33,7 +33,18 @@ async def create_order(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
-    return await crud_order.create_order(session=session, order_in=order_in)
+    try:
+        return await crud_order.create_order(session=session, order_in=order_in)
+    except IntegrityError as e:
+        detail_msg = "Order with this user_id and order_name already exists"
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=detail_msg
+        ) from e
+    except Exception as e:
+        detail_msg = "Internal server error"
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=detail_msg
+        ) from e
 
 
 @router.get("/{order_id}/", response_model=Order)

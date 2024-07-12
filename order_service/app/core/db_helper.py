@@ -26,7 +26,7 @@ class DatabaseHelper:
     async def dispose(self) -> None:
         await self.engine.dispose()
 
-    def get_scoped_session(self):
+    async def get_scoped_session(self):
         session = async_scoped_session(
             session_factory=self.session_factory,
             scopefunc=current_task,
@@ -39,9 +39,8 @@ class DatabaseHelper:
             await session.close()
 
     async def scoped_session_dependency(self) -> AsyncSession:
-        session = self.get_scoped_session()
+        session = await self.get_scoped_session()
         yield session
-        await session.close()
 
 
 db_helper = DatabaseHelper(

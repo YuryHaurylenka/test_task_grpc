@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from order_service.app.core import db_helper
@@ -11,6 +11,8 @@ from order_service.app.schemas import (
     OrderUpdatePartial,
 )
 
+from order_service.grpc.grpc_client import check_user_exists
+
 router = APIRouter(tags=["Order"])
 
 
@@ -21,15 +23,16 @@ async def get_orders(
     return await crud_order.get_orders(session=session)
 
 
-@router.post(
-    "/",
-    response_model=Order,
-    status_code=status.HTTP_201_CREATED,
-)
+@router.post("/", response_model=Order, status_code=status.HTTP_201_CREATED)
 async def create_order(
     order_in: OrderCreate,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
+    user_exists = await check_user_exists(order_in.user_id)
+    if not user_exists:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
     return await crud_order.create_order(session=session, order_in=order_in)
 
 

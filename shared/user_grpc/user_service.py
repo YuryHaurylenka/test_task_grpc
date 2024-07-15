@@ -5,7 +5,7 @@ import grpc
 
 from user_service.app.core import db_helper
 from user_service.app.models import User
-from user_service.grpc import user_pb2 as pb2, user_pb2_grpc as pb2_grpc
+from shared.user_grpc import user_pb2 as pb2, user_pb2_grpc as pb2_grpc
 
 
 class UserServiceServicer(pb2_grpc.UserServiceServicer):
@@ -18,6 +18,7 @@ class UserServiceServicer(pb2_grpc.UserServiceServicer):
                 if user is None:
                     context.set_details(f"User with id {request.user_id} not found")
                     context.set_code(grpc.StatusCode.NOT_FOUND)
+                    logging.error(f"User with id {request.user_id} not found")
                     return pb2.UserResponse()
                 logging.info(
                     f"User with id {request.user_id} found: Username = {user.username}, email = {user.email}, age = {user.age}"

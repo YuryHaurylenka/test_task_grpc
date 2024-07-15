@@ -11,7 +11,7 @@ from order_service.app.schemas import (
     OrderUpdate,
     OrderUpdatePartial,
 )
-from order_service.grpc.grpc_client import check_user_exists
+from shared.order_grpc.grpc_client import check_user_exists
 
 router = APIRouter(tags=["Order"])
 

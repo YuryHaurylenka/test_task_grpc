@@ -1,11 +1,8 @@
-import asyncio
 import uuid
 
 import grpc
 
-from user_service.grpc import user_pb2, user_pb2_grpc
-
-# TODO: из-за импорта докер не запускается
+from shared.user_grpc import user_pb2, user_pb2_grpc
 
 
 async def check_user_exists(user_id: uuid.UUID) -> bool:

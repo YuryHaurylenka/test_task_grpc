@@ -7,9 +7,9 @@ COPY pyproject.toml poetry.lock /app/
 RUN pip install poetry
 
 RUN poetry install --no-root
-
 COPY . /app/order_service
+COPY . /app/shared
 
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/app:/app/shared
 
 CMD ["poetry", "run", "uvicorn", "order_service.app.main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]

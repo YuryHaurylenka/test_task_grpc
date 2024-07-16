@@ -83,12 +83,16 @@ Logs will be visible in the terminal after successful startup.
 - Each microservice has 6 endpoints(Get all (GET), Create (POST), Get one (GET), Update (PUT), Update partial (PATCH),
   Delete (DELETE).
 
+*Order endpoints*
 ![Order endpoints](https://github.com/YuryHaurylenka/test_task_grpc/blob/develop/screens/endpoints_order.png)
+*User endpoints*
 ![User endpoints](https://github.com/YuryHaurylenka/test_task_grpc/blob/develop/screens/endpoints_user.png)
 
 - When an order is created, a message is sent to the server that the GetUser method on the grpc server with user_id in
   the request is called. If a user with this user_id exists, the server reports this user, otherwise it reports that
   no such user was found.
 
+*Correct order creating*
 ![Correct order creating](https://github.com/YuryHaurylenka/test_task_grpc/blob/develop/screens/correct_order_create.png)
+*Wrong order creating
 ![Wrong order creating](https://github.com/YuryHaurylenka/test_task_grpc/blob/develop/screens/wrong_order_create.png)

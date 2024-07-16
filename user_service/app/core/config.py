@@ -9,13 +9,23 @@ load_dotenv()
 
 class DbSettings(BaseModel):
     url: str = os.getenv("DB_URL")
-    # echo: bool = False
-    echo: bool = True
+    echo: bool = False
+
+
+class ApiV1Prefix(BaseModel):
+    prefix: str = "/v1"
+    users: str = "/users"
+
+
+class ApiPrefix(BaseModel):
+    prefix: str = "/api"
+    v1: ApiV1Prefix = ApiV1Prefix()
 
 
 class Settings(BaseSettings):
 
     db: DbSettings = DbSettings()
+    api: ApiPrefix = ApiPrefix()
 
 
 settings = Settings()

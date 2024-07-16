@@ -7,4 +7,5 @@ out/
 
 .DS_Store
 
-/venv/
+/user_service/venv_user_service/
+/order_service/venv_order_service/

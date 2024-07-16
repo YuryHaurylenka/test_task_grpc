@@ -19,7 +19,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-from order_service.app.config import settings
+from order_service.app.core.config import settings
 from order_service.app.models import Base
 
 target_metadata = Base.metadata

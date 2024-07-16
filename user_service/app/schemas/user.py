@@ -1,11 +1,11 @@
 import uuid
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class UserBase(BaseModel):
     username: str
-    email: str
+    email: EmailStr
     age: int
 
 
@@ -19,13 +19,13 @@ class UserUpdate(UserCreate):
 
 class UserUpdatePartial(UserCreate):
     username: str | None = None
-    email: str | None = None
+    email: EmailStr | None = None
     age: int | None = None
 
 
 class User(UserBase):
     model_config = ConfigDict(from_attributes=True)
-    user_id: uuid.UUID
-    name: str
-    email: str
+    user_id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    username: str
+    email: EmailStr
     age: int

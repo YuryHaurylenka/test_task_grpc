@@ -84,11 +84,16 @@ Logs will be visible in the terminal after successful startup.
   Delete (DELETE).
 
 ![Order endpoints](https://github.com/YuryHaurylenka/test_task_grpc/blob/develop/screens/endpoints_order.png)
+*Order endpoints*
 ![User endpoints](https://github.com/YuryHaurylenka/test_task_grpc/blob/develop/screens/endpoints_user.png)
+*User endpoints*
 
 - When an order is created, a message is sent to the server that the GetUser method on the grpc server with user_id in
   the request is called. If a user with this user_id exists, the server reports this user, otherwise it reports that
   no such user was found.
 
 ![Correct order creating](https://github.com/YuryHaurylenka/test_task_grpc/blob/develop/screens/correct_order_create.png)
+*Correct order creating*
+
 ![Wrong order creating](https://github.com/YuryHaurylenka/test_task_grpc/blob/develop/screens/wrong_order_create.png)
+*Wrong order creating*

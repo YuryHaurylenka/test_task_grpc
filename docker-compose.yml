@@ -3,7 +3,6 @@ version: '3'
 services:
   user_db:
     image: postgres:13
-
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -27,7 +26,7 @@ services:
   user_service:
     build: ./user_service
     environment:
-      DB_URL: postgresql+asyncpg://postgres:postgres@user_db:5432/user_db
+      DB_URL: ${DB_URL_USER}
     ports:
       - "8000:8000"
     volumes:
@@ -38,7 +37,7 @@ services:
   order_service:
     build: ./order_service
     environment:
-      DB_URL: postgresql+asyncpg://postgres:postgres@order_db:5432/order_db
+      DB_URL: ${DB_URL_ORDER}
     ports:
       - "8001:8001"
     volumes:

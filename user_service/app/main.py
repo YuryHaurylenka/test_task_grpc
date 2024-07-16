@@ -25,7 +25,9 @@ async def root():
 
 
 async def start_uvicorn():
-    config = uvicorn.Config("main:app", host="0.0.0.0", port=8000, reload=True)
+    config = uvicorn.Config(
+        "user_service.app.main:app", host="0.0.0.0", port=8000, reload=True
+    )
     server = uvicorn.Server(config)
     await server.serve()
 
@@ -33,9 +35,27 @@ async def start_uvicorn():
 async def start_servers():
     grpc_task = asyncio.create_task(serve_grpc())
     uvicorn_task = asyncio.create_task(start_uvicorn())
-    await asyncio.gather(grpc_task, uvicorn_task)
+    try:
+        await asyncio.gather(grpc_task, uvicorn_task)
+    except asyncio.CancelledError:
+        logging.info("Shutdown signal received, canceling tasks.")
+        grpc_task.cancel()
+        uvicorn_task.cancel()
+        try:
+            await grpc_task
+        except asyncio.CancelledError:
+            logging.info("gRPC server canceled.")
+        try:
+            await uvicorn_task
+        except asyncio.CancelledError:
+            logging.info("Uvicorn server canceled.")
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    asyncio.run(start_servers())
+    try:
+        asyncio.run(start_servers())
+    except Exception as e:
+        logging.error(f"Error running the servers: {e}")
+    finally:
+        logging.info("Servers stopped.")

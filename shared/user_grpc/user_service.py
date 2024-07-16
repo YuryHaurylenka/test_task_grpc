@@ -1,11 +1,19 @@
+import asyncio
 import logging
 from concurrent import futures
 
 import grpc
 
+from shared.user_grpc import user_pb2 as pb2, user_pb2_grpc as pb2_grpc
 from user_service.app.core import db_helper
 from user_service.app.models import User
-from shared.user_grpc import user_pb2 as pb2, user_pb2_grpc as pb2_grpc
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
+
+logging.getLogger("grpc").setLevel(logging.ERROR)
 
 
 class UserServiceServicer(pb2_grpc.UserServiceServicer):
@@ -40,5 +48,9 @@ async def serve_grpc():
     pb2_grpc.add_UserServiceServicer_to_server(UserServiceServicer(), server)
     server.add_insecure_port("0.0.0.0:50051")
     logging.info("Starting gRPC server on port 50051...")
-    await server.start()
-    await server.wait_for_termination()
+    try:
+        await server.start()
+        await server.wait_for_termination()
+    except asyncio.CancelledError:
+        logging.info("gRPC server shutdown requested.")
+        await server.stop(None)
